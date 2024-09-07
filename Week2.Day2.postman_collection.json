@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "949b5a3c-4107-458c-b2bf-f8f6ca7e4120",
+		"name": "Week2.Day2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37884325"
+	},
+	"item": [
+		{
+			"name": "Incident_ChainingProcess",
+			"item": [
+				{
+					"name": "CreateIncident",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"console.log(response);\r",
+									"var respsys_id = response.result.sys_id;\r",
+									"console.log(respsys_id);\r",
+									"pm.globals.set(\"ins_sys_id\", respsys_id);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"short_description\":\"Request for Mouse\",\"description\":\"Mouse\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/incident",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateIncident",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"short_description\":\"Request for Keyboard\",\"description\":\"Keyboard\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev282483.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "incident"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{ins_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIncident",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"short_description\":\"Request for Mouse\",\"description\":\"Mouse\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "incident"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{ins_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteIncident Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"short_description\":\"Request for Mouse\",\"description\":\"Mouse\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "incident"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{ins_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get_Incident_using Query",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/:tableName?sysparm_query=category=hardware^active=true",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domainName}}",
+						"service-now",
+						"com"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						":tableName"
+					],
+					"query": [
+						{
+							"key": "sysparm_query",
+							"value": "category=hardware^active=true"
+						}
+					],
+					"variable": [
+						{
+							"key": "tableName",
+							"value": "incident"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "password",
+			"value": "cv-H00neFIF@",
+			"type": "string"
+		}
+	]
+}

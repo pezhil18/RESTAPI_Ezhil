@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "152eeb88-3cba-4b4b-b670-b68499120c82",
+		"name": "Week2.Day1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37884325"
+	},
+	"item": [
+		{
+			"name": "ChangeRequest_ChainingProcess",
+			"item": [
+				{
+					"name": "Create OAuth Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"console.log(response);\r",
+									"var access_token = response.access_token;\r",
+									"pm.globals.set(\"OAuthToken\",access_token);\r",
+									"console.log(access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "zgK1qS1JbJH0cJFN9Ui2ZOPY4pwcEm3x9BrkDkWe9IsTtQcp7Tg90vHkBEO9B8sgvK5Vzhps05Pi9lnZfYZMDg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "cd6e84e27e9c12109bfc4a7cc98c885f",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "Am)LuRl|;M",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "cv-H00neFIF@",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://dev282483.service-now.com/oauth_token.do",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"oauth_token.do"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Change Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"console.log(response);\r",
+									"var respsys_id = response.result.sys_id;\r",
+									"pm.globals.set(\"chg_sys_id\",respsys_id)\r",
+									"console.log(respsys_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{OAuthToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"short_description\":\"Request for VDI Access\",\"description\":\"VDI Access\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/change_request",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"change_request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Change Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Verify the retreival\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     console.log(jsonData)\r",
+									"//     pm.expect(jsonData.result.sys_id).to.eql(\"8ca599ae83989210c6e1c5d6feaad3a4\");\r",
+									"// });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{OAuthToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev282483.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "change_request"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{chg_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put Change Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(485);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body contains updated description\", function () {\r",
+									"  var jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.result.short_description).to.eql(\"Request for Client Laptop\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{OAuthToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"short_description\": \"Request for Client Laptop\",\r\n  \" description\": \"Client Laptop Request\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev282483.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "change_request"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{chg_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Change Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{OAuthToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"short_description\": \"Request for Postman Application\",\r\n  \" description\": \"Postman Application Request\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev282483.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "change_request"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{chg_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Change Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Response time is less than 200ms\", function () {\r",
+									"//   pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"// });\r",
+									"\r",
+									"pm.test(\"Response body is empty\", function () {\r",
+									"  pm.expect(pm.response.text()).to.equal(\"\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://dev282483.service-now.com/api/now/table/:tableName/:sys_id",
+							"protocol": "https",
+							"host": [
+								"dev282483",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName",
+								":sys_id"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "change_request"
+								},
+								{
+									"key": "sys_id",
+									"value": "{{chg_sys_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assignment2",
+			"item": [
+				{
+					"name": "Create Incident",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"console.log(response);\r",
+									"var respsys_id = response.result.sys_id;\r",
+									"pm.globals.set(\"ins_sys_id\", respsys_id);\r",
+									"console.log(respsys_id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\": \"Request for Mouse\",\r\n    \"description\": \"Mouse Request\",\r\n    \"category\": \"Hardware\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/:tableName",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								":tableName"
+							],
+							"variable": [
+								{
+									"key": "tableName",
+									"value": "incident"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Incident_csvupload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate the Urgency value\", function () {\r",
+									"    pm.expect(response.result.urgency).to.be.eql(pm.iterationData.get(\"Urgency\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "cv-H00neFIF@",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_description\": \"\",\r\n    \"description\": \"\",\r\n    \"urgency\": \"\",\r\n    \"state\": \"\",\r\n    \"caller_id\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}://{{domainName}}.service-now.com/api/now/table/incident",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{domainName}}",
+								"service-now",
+								"com"
+							],
+							"path": [
+								"api",
+								"now",
+								"table",
+								"incident"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "password",
+			"value": "cv-H00neFIF@",
+			"type": "string"
+		}
+	]
+}
